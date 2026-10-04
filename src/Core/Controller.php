@@ -8,6 +8,8 @@ abstract class Controller
 {
     protected function render(string $template, array $data = []): void
     {
+        $data['isLogged'] = $this->isLogged();
+        $data['isAdmin'] = $this->isAdmin();
         View::render($template, $data);
     }
 
