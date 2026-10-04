@@ -115,5 +115,11 @@ class AuthController extends Controller
         $this->redirect('/login');
     }
 
+    public function logout(): void
+    {
+        unset($_SESSION['user'], $_SESSION['last_activity']);
+        session_regenerate_id(true);
+        $this->setNotification('success', 'Byli jste úspěšně odhlášeni.');
+        $this->redirect('/login');
     }
 }

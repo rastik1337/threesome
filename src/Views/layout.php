@@ -18,9 +18,14 @@
 </head>
 
 <body class="p-8">
-    <nav class="flex gap-4 mb-6">
+    <nav class="flex gap-4 mb-6 items-center">
         <?php if ($isLogged ?? false): ?>
             <a href="/" class="text-blue-600 hover:text-blue-800 underline">Úvod</a>
+            <form action="/logout" method="POST" class="inline">
+                <button type="submit">
+                    Odhlásit se (<?= htmlspecialchars($user['login'] ?? '') ?>)
+                </button>
+            </form>
         <?php else: ?>
             <a href="/login" class="text-blue-600 hover:text-blue-800 underline">Přihlášení</a>
             <a href="/register" class="text-blue-600 hover:text-blue-800 underline">Registrace</a>
