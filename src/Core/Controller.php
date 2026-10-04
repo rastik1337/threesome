@@ -32,7 +32,6 @@ abstract class Controller
                 $this->redirect('/login');
             }
             $_SESSION['last_activity'] = time();
-            error_log("hello from init session");
         }
     }
 
