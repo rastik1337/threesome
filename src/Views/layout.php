@@ -1,3 +1,9 @@
+<?php
+
+/**
+ * @var array{id: int, login: string, role: string}|null $user
+ */
+?>
 <!DOCTYPE html>
 <html lang="cs">
 
@@ -19,7 +25,7 @@
 
 <body class="p-8">
     <nav class="flex gap-4 mb-6 items-center">
-        <?php if ($isLogged ?? false): ?>
+        <?php if ($user !== null): ?>
             <a href="/" class="text-blue-600 hover:text-blue-800 underline">Úvod</a>
             <form action="/logout" method="POST" class="inline">
                 <button type="submit">

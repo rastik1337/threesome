@@ -46,8 +46,6 @@ abstract class Controller
 
     protected function render(string $template, array $data = []): void
     {
-        $data['isLogged'] = $this->isLogged();
-        $data['isAdmin'] = $this->isAdmin();
         $data['user'] = $_SESSION['user'] ?? null;
         $data['notifications'] = $this->getNotifications();
         View::render($template, $data);
@@ -57,15 +55,5 @@ abstract class Controller
     {
         header('Location: ' . $url);
         exit;
-    }
-
-    protected function isLogged(): bool
-    {
-        return isset($_SESSION['user']['id']);
-    }
-
-    protected function isAdmin(): bool
-    {
-        return isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin';
     }
 }
