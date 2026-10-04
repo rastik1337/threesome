@@ -12,14 +12,4 @@ class HomeController extends Controller
     {
         $this->render('home', ['title' => 'Home']);
     }
-
-    public function pageTwo(): void
-    {
-        $this->render('page-two', ['title' => 'Page Two']);
-    }
-
-    public function pageThree(): void
-    {
-        $this->render('page-three', ['title' => 'Page Three']);
-    }
 }

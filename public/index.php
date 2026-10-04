@@ -23,7 +23,5 @@ use App\Core\Router;
 use App\Controllers\HomeController;
 
 Router::get('/', [HomeController::class, 'index']);
-Router::get('/page-two', [HomeController::class, 'pageTwo']);
-Router::get('/page-three', [HomeController::class, 'pageThree']);
 
 Router::dispatch();
