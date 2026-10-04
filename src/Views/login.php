@@ -4,7 +4,6 @@
         <p class="text-sm text-slate-500 mt-1">Zadejte své přihlašovací údaje pro vstup do účtu.</p>
     </div>
 
-    <!-- Serverové chyby z PHP -->
     <?php if (!empty($errors)): ?>
         <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200">
             <div class="text-sm font-semibold text-rose-800 mb-1">Chyba při přihlášení:</div>
@@ -16,27 +15,26 @@
         </div>
     <?php endif; ?>
 
-    <!-- Formulář -->
     <form id="loginForm" method="POST" action="/login" novalidate class="space-y-4">
         <div>
             <label for="login" class="block text-sm font-semibold text-slate-700 mb-1">Uživatelské jméno (login):</label>
-            <input type="text" id="login" name="login" value="<?= htmlspecialchars($old['login'] ?? '') ?>" 
-                   placeholder="uzivatel123" required
-                   class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
+            <input type="text" id="login" name="login" value="<?= htmlspecialchars($old['login'] ?? '') ?>"
+                placeholder="novakjan77" required
+                class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
             <div id="loginError" class="text-rose-600 text-xs mt-1 min-h-[1rem]"></div>
         </div>
 
         <div>
             <label for="password" class="block text-sm font-semibold text-slate-700 mb-1">Heslo:</label>
-            <input type="password" id="password" name="password" 
-                   placeholder="••••••••" required
-                   class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
+            <input type="password" id="password" name="password"
+                placeholder="••••••••" required
+                class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
             <div id="passwordError" class="text-rose-600 text-xs mt-1 min-h-[1rem]"></div>
         </div>
 
         <div class="pt-2">
-            <button type="submit" 
-                    class="w-full flex justify-center py-3 px-4 rounded-lg shadow-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition cursor-pointer">
+            <button type="submit"
+                class="w-full flex justify-center py-3 px-4 rounded-lg shadow-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition cursor-pointer">
                 Přihlásit se
             </button>
         </div>
@@ -49,6 +47,7 @@
 
 <script>
     (function() {
+
         const form = document.getElementById('loginForm');
         const fields = {
             login: {
@@ -77,7 +76,6 @@
 
         Object.keys(fields).forEach((key) => {
             const input = fields[key].input;
-            if (!input) return;
             input.addEventListener('blur', () => {
                 validateSingle(key);
             });
@@ -90,13 +88,11 @@
             let formValid = true;
             let firstInvalid = null;
 
-            Object.keys(fields).forEach(function(key) {
+            Object.keys(fields).forEach((key) => {
                 const isOk = validateSingle(key);
                 if (!isOk) {
                     formValid = false;
-                    if (!firstInvalid) {
-                        firstInvalid = fields[key].input;
-                    }
+                    firstInvalid ??= fields[key].input;
                 }
             });
 
