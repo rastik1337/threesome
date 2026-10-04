@@ -26,6 +26,19 @@
             <a href="/register" class="text-blue-600 hover:text-blue-800 underline">Registrace</a>
         <?php endif; ?>
     </nav>
+
+    <?php if (!empty($notifications['success'])): ?>
+        <div class="border mb-4 p-2 text-sm font-medium">
+            <?= htmlspecialchars($notifications['success']) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($notifications['error'])): ?>
+        <div class="border border-red-600 text-red-600 mb-4 p-2 text-sm font-medium">
+            <?= htmlspecialchars($notifications['error']) ?>
+        </div>
+    <?php endif; ?>
+
     <main>
         <?= $content ?? '' ?>
     </main>

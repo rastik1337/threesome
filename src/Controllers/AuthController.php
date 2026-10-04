@@ -31,11 +31,28 @@ class AuthController extends Controller
             $errors[] = 'Vyplňte heslo.';
         }
 
-        $this->render('login', [
-            'title' => 'Přihlášení',
-            'errors' => $errors,
-            'old' => ['login' => $login],
-        ]);
+        // TODO: Check if user exists and verify password.
+
+        if (!empty($errors)) {
+            $this->render('login', [
+                'title' => 'Přihlášení',
+                'errors' => $errors,
+                'old' => ['login' => $login],
+            ]);
+            return;
+        }
+
+        session_regenerate_id(true);
+
+        $_SESSION['user'] = [
+            'id' => 1,
+            'login' => $login,
+            'role' => 'user',
+        ];
+        $_SESSION['last_activity'] = time();
+
+        $this->setNotification('success', 'Byli jste úspěšně přihlášeni.');
+        $this->redirect('/');
     }
 
     public function handleRegister(): void
@@ -75,17 +92,28 @@ class AuthController extends Controller
             $errors[] = 'Vyberte profilovou fotografii.';
         }
 
-        $this->render('register', [
-            'title' => 'Registrace',
-            'errors' => $errors,
-            'old' => [
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
-                'phone' => $phone,
-                'gender' => $gender,
-                'login' => $login,
-            ],
-        ]);
+        if (!empty($errors)) {
+            $this->render('register', [
+                'title' => 'Registrace',
+                'errors' => $errors,
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'gender' => $gender,
+                    'login' => $login,
+                ],
+            ]);
+            return;
+        }
+
+        // TODO: Register user here. Unique login, save profile picture, encrypt
+        // GDPR-sensitive fields (add secret key for that) and hash password.
+
+        $this->setNotification('success', 'Registrace proběhla úspěšně. Nyní se můžete přihlásit.');
+        $this->redirect('/login');
+    }
+
     }
 }
