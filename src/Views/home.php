@@ -1,1 +1,1 @@
-<h1 class="text-2xl font-bold">Home Page</h1>
+<h1 class="text-2xl font-bold">Úvodní stránka</h1>
