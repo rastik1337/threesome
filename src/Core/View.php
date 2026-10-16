@@ -8,6 +8,8 @@ class View
 {
     public static function render(string $template, array $data = []): void
     {
+        $data['user'] = $data['user'] ?? ($_SESSION['user'] ?? null);
+        $data['notifications'] = $data['notifications'] ?? null;
         extract($data);
 
         $templateFile = __DIR__ . '/../Views/' . $template . '.php';

@@ -25,7 +25,7 @@
 
 <body class="p-8">
     <nav class="flex gap-4 mb-6 items-center">
-        <?php if ($user !== null): ?>
+        <?php if (!empty($user)): ?>
             <a href="/" class="text-blue-600 hover:text-blue-800 underline">Úvod</a>
             <a href="/profile" class="text-blue-600 hover:text-blue-800 underline">Profil</a>
             <form action="/logout" method="POST" class="inline">

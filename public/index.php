@@ -31,6 +31,7 @@ Router::get('/login', [AuthController::class, 'login']);
 Router::post('/login', [AuthController::class, 'handleLogin']);
 Router::get('/register', [AuthController::class, 'register']);
 Router::post('/register', [AuthController::class, 'handleRegister']);
+Router::get('/logout', [AuthController::class, 'logout']);
 Router::post('/logout', [AuthController::class, 'logout']);
 
 Router::dispatch();
