@@ -10,16 +10,19 @@ class AuthController extends Controller
 {
     public function login(): void
     {
+        $this->requireGuest();
         $this->render('login', ['title' => 'Přihlášení']);
     }
 
     public function register(): void
     {
+        $this->requireGuest();
         $this->render('register', ['title' => 'Registrace']);
     }
 
     public function handleLogin(): void
     {
+        $this->requireGuest();
         $login = trim($_POST['login'] ?? '');
         $password = $_POST['password'] ?? '';
 
@@ -47,6 +50,11 @@ class AuthController extends Controller
         $_SESSION['user'] = [
             'id' => 1,
             'login' => $login,
+            'first_name' => 'Jan',
+            'last_name' => 'Novák',
+            'email' => 'jan.novak@priklad.cz',
+            'phone' => '+420 123 456 789',
+            'gender' => 'Muž',
             'role' => 'user',
         ];
         $_SESSION['last_activity'] = time();
@@ -57,6 +65,7 @@ class AuthController extends Controller
 
     public function handleRegister(): void
     {
+        $this->requireGuest();
         $firstName = trim($_POST['first_name'] ?? '');
         $lastName = trim($_POST['last_name'] ?? '');
         $email = trim($_POST['email'] ?? '');
@@ -117,6 +126,7 @@ class AuthController extends Controller
 
     public function logout(): void
     {
+        $this->requireAuth();
         unset($_SESSION['user'], $_SESSION['last_activity']);
         session_regenerate_id(true);
         $this->setNotification('success', 'Byli jste úspěšně odhlášeni.');

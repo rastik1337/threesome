@@ -56,4 +56,19 @@ abstract class Controller
         header('Location: ' . $url);
         exit;
     }
+
+    protected function requireAuth(): void
+    {
+        if (!isset($_SESSION['user'])) {
+            $this->setNotification('error', 'Pro přístup k této stránce se musíte přihlásit.');
+            $this->redirect('/login');
+        }
+    }
+
+    protected function requireGuest(): void
+    {
+        if (isset($_SESSION['user'])) {
+            $this->redirect('/');
+        }
+    }
 }
