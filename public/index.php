@@ -22,8 +22,10 @@ spl_autoload_register(function (string $class): void {
 use App\Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
+use App\Controllers\ProfileController;
 
 Router::get('/', [HomeController::class, 'index']);
+Router::get('/profile', [ProfileController::class, 'index']);
 
 Router::get('/login', [AuthController::class, 'login']);
 Router::post('/login', [AuthController::class, 'handleLogin']);
