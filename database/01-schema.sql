@@ -4,13 +4,13 @@ CREATE TYPE user_gender AS ENUM ('male', 'female', 'other');
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
 
-    username VARCHAR(50) UNIQUE NOT NULL,
+    login VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    phone VARCHAR(20),
-    gender user_gender,
+    phone VARCHAR(20) NOT NULL,
+    gender user_gender NOT NULL,
     role user_role DEFAULT 'user',
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
