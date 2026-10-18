@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core;
 
 use PDO;
@@ -37,6 +39,16 @@ class Database
         }
 
         return self::$instance;
+    }
+
+    // TODO: Rename to `query`.
+    public static function fetch(string $class, string $query, array $params)
+    {
+        $con = self::getConnection();
+        $stmt = $con->prepare($query);
+        $stmt->execute($params);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return $stmt->fetch() ?: null;
     }
 
     public static function testConnection(): bool

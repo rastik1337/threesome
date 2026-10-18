@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Encryption;
+use App\Models\UserRepo;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -34,7 +37,13 @@ class AuthController extends Controller
             $errors[] = 'Vyplňte heslo.';
         }
 
-        // TODO: Check if user exists and verify password.
+        $user = UserRepo::getByLogin($login);
+        if (!$user) {
+            $errors[] = "Špatné údaje";
+        }
+        if (!password_verify($password, $user->password)) {
+            $errors[] = "Špatné údaje";
+        }
 
         if (!empty($errors)) {
             $this->render('login', [
@@ -48,14 +57,14 @@ class AuthController extends Controller
         session_regenerate_id(true);
 
         $_SESSION['user'] = [
-            'id' => 1,
-            'login' => $login,
-            'first_name' => 'Jan',
-            'last_name' => 'Novák',
-            'email' => 'jan.novak@priklad.cz',
-            'phone' => '+420 123 456 789',
-            'gender' => 'Muž',
-            'role' => 'user',
+            'id' => $user->user_id,
+            'login' => $user->login,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'gender' => $user->gender->translate(),
+            'role' => $user->role->translate(),
         ];
         $_SESSION['last_activity'] = time();
 
@@ -101,6 +110,23 @@ class AuthController extends Controller
             $errors[] = 'Vyberte profilovou fotografii.';
         }
 
+        // TODO: Register user here. Unique login, save profile picture, encrypt
+        // GDPR-sensitive fields (add secret key for that) and hash password.
+        try {
+            // TODO: Move encryption and hashing to repository?
+            UserRepo::create([
+                'login' => $login,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'first_name' => Encryption::encrypt($firstName),
+                'last_name' => Encryption::encrypt($lastName),
+                'email' => Encryption::encrypt($email),
+                'phone' => Encryption::encrypt($phone),
+                'gender' => $gender,
+            ]);
+        } catch (Exception $e) {
+            $errors[] = "Nastala chyba při vytváření uživatele: " . $e->getMessage();
+        }
+
         if (!empty($errors)) {
             $this->render('register', [
                 'title' => 'Registrace',
@@ -116,9 +142,6 @@ class AuthController extends Controller
             ]);
             return;
         }
-
-        // TODO: Register user here. Unique login, save profile picture, encrypt
-        // GDPR-sensitive fields (add secret key for that) and hash password.
 
         $this->setNotification('success', 'Registrace proběhla úspěšně. Nyní se můžete přihlásit.');
         $this->redirect('/login');

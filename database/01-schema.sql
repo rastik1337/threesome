@@ -9,7 +9,7 @@ CREATE TABLE users (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    phone TEXT NOT NULL,
     gender user_gender NOT NULL,
     role user_role DEFAULT 'user',
 
