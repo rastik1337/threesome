@@ -14,8 +14,8 @@ class UserRepo
     {
         Database::fetch(
             User::class,
-            "INSERT INTO users (login, password, first_name, last_name, email, phone, gender)
-            VALUES (:login, :password, :first_name, :last_name, :email, :phone, :gender)",
+            "INSERT INTO users (login, password, first_name, last_name, email, phone, gender, avatar_path)
+            VALUES (:login, :password, :first_name, :last_name, :email, :phone, :gender, :avatar_path)",
             $user,
         );
     }
@@ -43,6 +43,7 @@ class UserRepo
             gender: Gender::from($arr['gender']),
             role: Role::from($arr['role']),
             created_at: new DateTime($arr['created_at']),
+            avatar_path: $arr['avatar_path'] ?? null,
         );
     }
 }

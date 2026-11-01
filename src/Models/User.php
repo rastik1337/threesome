@@ -17,9 +17,10 @@ class User
     public string $phone;
     public Gender $gender;
     public Role $role;
+    public ?string $avatar_path;
     public readonly DateTime $created_at;
 
-    public function __construct(int $id, string $login, string $password, string $first_name, string $last_name, string $email, string $phone, Gender $gender, Role $role, DateTime $created_at)
+    public function __construct(int $id, string $login, string $password, string $first_name, string $last_name, string $email, string $phone, Gender $gender, Role $role, DateTime $created_at, ?string $avatar_path = null)
     {
         $this->user_id = $id;
         $this->login = $login;
@@ -31,6 +32,7 @@ class User
         $this->gender = $gender;
         $this->role = $role;
         $this->created_at = $created_at;
+        $this->avatar_path = $avatar_path;
     }
 }
 

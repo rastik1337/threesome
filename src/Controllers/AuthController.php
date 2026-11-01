@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Encryption;
 use App\Models\UserRepo;
+use App\Services\ImageService;
 use Exception;
 
 class AuthController extends Controller
@@ -61,6 +62,7 @@ class AuthController extends Controller
             'email' => $user->email,
             'phone' => $user->phone,
             'gender' => $user->gender->translate(),
+            'avatar' => $user->avatar_path,
             'role' => $user->role->translate(),
         ];
         $_SESSION['last_activity'] = time();
@@ -103,25 +105,35 @@ class AuthController extends Controller
         if ($password === '' || strlen($password) < 6) {
             $errors[] = 'Heslo musí mít alespoň 6 znaků.';
         }
-        if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
+        $avatarPath = null;
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            try {
+                $avatarPath = ImageService::validateAndConvert($_FILES['avatar'], 'avatars');
+            } catch (Exception $e) {
+                $errors[] = $e->getMessage();
+            }
+        } else {
             $errors[] = 'Vyberte profilovou fotografii.';
         }
 
-        // TODO: Register user here. Unique login, save profile picture, encrypt
-        // GDPR-sensitive fields (add secret key for that) and hash password.
-        try {
-            // TODO: Move encryption and hashing to repository?
-            UserRepo::create([
-                'login' => $login,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'first_name' => Encryption::encrypt($firstName),
-                'last_name' => Encryption::encrypt($lastName),
-                'email' => Encryption::encrypt($email),
-                'phone' => Encryption::encrypt($phone),
-                'gender' => $gender,
-            ]);
-        } catch (Exception $e) {
-            $errors[] = "Nastala chyba při vytváření uživatele: " . $e->getMessage();
+        if (empty($errors)) {
+            try {
+                UserRepo::create([
+                    'login' => $login,
+                    'password' => password_hash($password, PASSWORD_DEFAULT),
+                    'first_name' => Encryption::encrypt($firstName),
+                    'last_name' => Encryption::encrypt($lastName),
+                    'email' => Encryption::encrypt($email),
+                    'phone' => Encryption::encrypt($phone),
+                    'gender' => $gender,
+                    'avatar_path' => $avatarPath,
+                ]);
+            } catch (Exception $_e) {
+                if ($avatarPath !== null) {
+                    ImageService::deleteFile($avatarPath);
+                }
+                $errors[] = 'Uživatelské jméno nebo e-mail již existuje.';
+            }
         }
 
         if (!empty($errors)) {
