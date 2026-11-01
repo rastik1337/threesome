@@ -11,6 +11,7 @@ CREATE TABLE users (
     email TEXT UNIQUE NOT NULL,
     phone TEXT NOT NULL,
     gender user_gender NOT NULL,
+    avatar_path VARCHAR(255),
     role user_role DEFAULT 'user',
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
