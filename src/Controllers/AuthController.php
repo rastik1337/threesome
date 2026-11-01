@@ -61,9 +61,9 @@ class AuthController extends Controller
             'last_name' => $user->last_name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'gender' => $user->gender->translate(),
+            'gender' => $user->gender->value,
             'avatar' => $user->avatar_path,
-            'role' => $user->role->translate(),
+            'role' => $user->role->value,
         ];
         $_SESSION['last_activity'] = time();
 

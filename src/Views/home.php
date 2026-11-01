@@ -35,7 +35,7 @@
                         <small><?= $image->created_at->format('d.m.Y H:i') ?></small>
                         <?php 
                         $isOwner = $user !== null && $image->user_id === $user['id'];
-                        $isAdmin = $user !== null && in_array(strtolower($user['role'] ?? ''), ['admin', 'správce'], true);
+                        $isAdmin = $user !== null && ($user['role'] ?? '') === 'admin';
                         if ($isOwner || $isAdmin): 
                         ?>
                             <form action="/gallery/delete" method="POST" onsubmit="return confirm('Opravdu chcete smazat tuto fotografii?');">

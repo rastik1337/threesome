@@ -55,7 +55,7 @@ class GalleryController extends Controller
 
         $isOwner = $image->user_id === ($_SESSION['user']['id'] ?? null);
         $role = strtolower((string) ($_SESSION['user']['role'] ?? ''));
-        $isAdmin = $role === 'admin' || $role === 'správce';
+        $isAdmin = $role === 'admin';
 
         if (!$isOwner && !$isAdmin) {
             $this->setNotification('error', 'Nemáte oprávnění ke smazání této fotografie.');

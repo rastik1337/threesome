@@ -73,7 +73,12 @@
 
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Typ účtu</span>
-                <span class="text-sm font-bold text-slate-800 capitalize"><?= htmlspecialchars($user['role'] ?? 'Uživatel') ?></span>
+                <span class="text-sm font-bold text-slate-800">
+                    <?php 
+                        $roles = ['admin' => 'Správce', 'user' => 'Uživatel'];
+                        echo htmlspecialchars($roles[$user['role'] ?? ''] ?? ($user['role'] ?? 'Uživatel'));
+                    ?>
+                </span>
             </div>
 
         </div>
