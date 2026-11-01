@@ -112,6 +112,8 @@ class AuthController extends Controller
             } catch (Exception $e) {
                 $errors[] = $e->getMessage();
             }
+        } elseif (isset($_FILES['avatar']) && in_array($_FILES['avatar']['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE], true)) {
+            $errors[] = 'Profilová fotografie je příliš velká (překročila limit velikosti).';
         } else {
             $errors[] = 'Vyberte profilovou fotografii.';
         }
