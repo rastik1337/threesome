@@ -24,6 +24,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ProfileController;
 use App\Controllers\GalleryController;
+use App\Controllers\MessageController;
 
 Router::get('/', [HomeController::class, 'index']);
 Router::get('/profile', [ProfileController::class, 'index']);
@@ -37,5 +38,10 @@ Router::get('/register', [AuthController::class, 'register']);
 Router::post('/register', [AuthController::class, 'handleRegister']);
 Router::get('/logout', [AuthController::class, 'logout']);
 Router::post('/logout', [AuthController::class, 'logout']);
+
+Router::get('/messages', [MessageController::class, 'messages']);
+Router::get('/messages/send', [MessageController::class, 'send']);
+Router::post('/messages/send', [MessageController::class, 'handleSend']);
+Router::post('/messages/read', [MessageController::class, 'handleRead']);
 
 Router::dispatch();

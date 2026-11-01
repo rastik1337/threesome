@@ -28,6 +28,7 @@
         <?php if (!empty($user)): ?>
             <a href="/" class="text-blue-600 hover:text-blue-800 underline">Úvod</a>
             <a href="/profile" class="text-blue-600 hover:text-blue-800 underline">Profil</a>
+            <a href="/messages" class="text-blue-600 hover:text-blue-800 underline">Zprávy</a>
             <form action="/logout" method="POST" class="inline">
                 <button type="submit">
                     Odhlásit se (<?= htmlspecialchars($user['login'] ?? '') ?>)
