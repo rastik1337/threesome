@@ -19,6 +19,16 @@ class UserRepo
         )->fetch();
     }
 
+    public static function exists(int $id): bool
+    {
+        $arr = Database::getStatement(
+            "SELECT 1 FROM users WHERE user_id = :id",
+            ['id' => $id],
+        )->fetch();
+
+        return !empty($arr);
+    }
+
     public static function getByLogin(string $login): ?User
     {
         $arr = Database::getStatement(
