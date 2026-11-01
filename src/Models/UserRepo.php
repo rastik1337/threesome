@@ -13,7 +13,6 @@ class UserRepo
     public static function create(array $user)
     {
         Database::getStatement(
-            User::class,
             "INSERT INTO users (login, password, first_name, last_name, email, phone, gender, avatar_path)
             VALUES (:login, :password, :first_name, :last_name, :email, :phone, :gender, :avatar_path)",
             $user,

@@ -52,7 +52,6 @@ class ImageRepo
     public static function getById(int $id): ?Image
     {
         $row = Database::getStatement(
-            Image::class,
             "SELECT i.*, u.login AS author_login, u.avatar_path AS author_avatar
              FROM images i
              JOIN users u ON i.user_id = u.user_id
