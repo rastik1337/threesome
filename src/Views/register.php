@@ -84,7 +84,7 @@
             <div>
                 <label for="password" class="block text-sm font-semibold text-slate-700 mb-1">Heslo:</label>
                 <input type="password" id="password" name="password"
-                    placeholder="••••••••" required minlength="6"
+                    placeholder="••••••••" required minlength="8"
                     class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
                 <div id="passwordError" class="text-rose-600 text-xs mt-1 min-h-[1rem]"></div>
             </div>

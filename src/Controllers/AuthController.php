@@ -102,8 +102,8 @@ class AuthController extends Controller
         if ($login === '' || strlen($login) < 3 || !preg_match('/^[a-zA-Z0-9_-]+$/', $login)) {
             $errors[] = 'Uživatelské jméno musí mít alespoň 3 znaky.';
         }
-        if ($password === '' || strlen($password) < 6) {
-            $errors[] = 'Heslo musí mít alespoň 6 znaků.';
+        if ($password === '' || strlen($password) < 8) {
+            $errors[] = 'Heslo musí mít alespoň 8 znaků.';
         }
         $avatarPath = null;
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
