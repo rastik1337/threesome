@@ -1,3 +1,4 @@
+--- (Password is 'admin' hashed with bcrypt.)
 INSERT INTO users (login, password, first_name, last_name, email, phone, gender, avatar_path, role)
 VALUES (
     'admin',
