@@ -20,9 +20,9 @@ CREATE TABLE users (
 CREATE TABLE messages (
     message_id SERIAL PRIMARY KEY,
 
-    sender_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    subject TEXT,
+    source_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    target_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    subject VARCHAR(255),
     body TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
 
