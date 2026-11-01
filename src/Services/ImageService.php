@@ -33,7 +33,6 @@ class ImageService
         $format = strtoupper($image->getImageFormat());
         if (!in_array($format, self::ALLOWED_FORMATS, true)) {
             $image->clear();
-            $image->destroy();
             throw new InvalidArgumentException('Nepovolený formát. Podporovány jsou pouze JPEG, PNG, GIF, BMP a TIFF.');
         }
 
@@ -46,7 +45,6 @@ class ImageService
         $uploadDir = __DIR__ . '/../../public/uploads/' . trim($subfolder, '/');
         if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
             $image->clear();
-            $image->destroy();
             throw new RuntimeException('Nepodařilo se vytvořit cílový adresář pro nahrání.');
         }
 
@@ -55,12 +53,10 @@ class ImageService
 
         if (!$image->writeImage($fullPath)) {
             $image->clear();
-            $image->destroy();
             throw new RuntimeException('Nepodařilo se uložit zpracovaný obrázek.');
         }
 
         $image->clear();
-        $image->destroy();
 
         return trim($subfolder, '/') . '/' . $filename;
     }
