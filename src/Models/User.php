@@ -35,33 +35,3 @@ class User
         $this->avatar_path = $avatar_path;
     }
 }
-
-enum Gender: string
-{
-    case Male = "male";
-    case Female = "female";
-    case Other = "other";
-
-    public function translate(): string
-    {
-        return match ($this) {
-            self::Male => "Muž",
-            self::Female => "Žena",
-            self::Other => "Jiné",
-        };
-    }
-}
-
-enum Role: string
-{
-    case User = "user";
-    case Admin = "admin";
-
-    public function translate(): string
-    {
-        return match ($this) {
-            self::User => "Uživatel",
-            self::Admin => "Správce",
-        };
-    }
-}
