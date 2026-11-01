@@ -42,7 +42,7 @@ class Database
         return self::$instance;
     }
 
-    public static function getStatement(string $class, string $query, array $params)
+    public static function getStatement(string $query, array $params)
     {
         $con = self::getConnection();
         $stmt = $con->prepare($query);

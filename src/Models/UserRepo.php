@@ -13,7 +13,6 @@ class UserRepo
     public static function create(array $user)
     {
         Database::getStatement(
-            User::class,
             "INSERT INTO users (login, password, first_name, last_name, email, phone, gender)
             VALUES (:login, :password, :first_name, :last_name, :email, :phone, :gender)",
             $user,
@@ -23,7 +22,6 @@ class UserRepo
     public static function getByLogin(string $login): ?User
     {
         $arr = Database::getStatement(
-            User::class,
             "SELECT * FROM users WHERE login = :login",
             ['login' => $login],
         )->fetch();
