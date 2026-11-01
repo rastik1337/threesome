@@ -118,6 +118,7 @@ class AuthController extends Controller
 
         if (empty($errors)) {
             try {
+                // TODO: Move encryption and hashing to repository?
                 UserRepo::create([
                     'login' => $login,
                     'password' => password_hash($password, PASSWORD_DEFAULT),
