@@ -19,11 +19,11 @@ $currentUserId = (int) ($user['id'] ?? 0);
 
     <!-- Odkaz zpět -->
     <div class="mb-4">
-        <a href="/messages" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+        <a href="/mailbox" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Zpět na přehled zpráv
+            Zpět do schránky
         </a>
     </div>
 
@@ -57,7 +57,7 @@ $currentUserId = (int) ($user['id'] ?? 0);
         <?php endif; ?>
 
         <!-- Formulář -->
-        <form id="sendMessageForm" method="POST" action="/messages/send" novalidate class="p-6 sm:p-8 space-y-5">
+        <form id="sendMessageForm" method="POST" action="/mailbox/send" novalidate class="p-6 sm:p-8 space-y-5">
 
             <!-- Příjemce (target_id) -->
             <div>
@@ -110,7 +110,7 @@ $currentUserId = (int) ($user['id'] ?? 0);
 
             <!-- Tlačítka akcí -->
             <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <a href="/messages" class="w-full sm:w-auto text-center px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
+                <a href="/mailbox" class="w-full sm:w-auto text-center px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
                     Zrušit
                 </a>
                 <button type="submit" 

@@ -10,9 +10,9 @@ use App\Models\MessageRepo;
 use App\Models\UserRepo;
 use Throwable;
 
-class MessageController extends Controller
+class MailboxController extends Controller
 {
-    public function messages(): void
+    public function inbox(): void
     {
         $this->requireAuth();
 
@@ -27,23 +27,23 @@ class MessageController extends Controller
             $outgoing = [];
         }
 
-        $this->render("messages", [
-            "title" => "Zprávy",
+        $this->render("inbox", [
+            "title" => "Poštovní schránka",
             "incoming" => $incoming,
             "outgoing" => $outgoing,
         ]);
     }
 
-    public function send(): void
+    public function compose(): void
     {
         $this->requireAuth();
 
-        $this->render("send", [
+        $this->render("compose", [
             "title" => "Nová zpráva",
         ]);
     }
 
-    public function handleSend(): void
+    public function send(): void
     {
         $this->requireAuth();
 
@@ -75,7 +75,7 @@ class MessageController extends Controller
         }
 
         if (!empty($errors)) {
-            $this->render("send", [
+            $this->render("compose", [
                 "title" => "Nová zpráva",
                 "errors" => $errors,
                 "old" => [
@@ -95,7 +95,7 @@ class MessageController extends Controller
                 "body" => Encryption::encrypt($body),
             ]);
         } catch (Throwable) {
-            $this->render("send", [
+            $this->render("compose", [
                 "title" => "Nová zpráva",
                 "errors" => ["Nastala chyba při odesílání zprávy. Zkuste to prosím znovu."],
                 "old" => [
@@ -108,10 +108,10 @@ class MessageController extends Controller
         }
 
         $this->setNotification("success", "Zpráva byla úspěšně odeslána.");
-        $this->redirect("/messages");
+        $this->redirect("/mailbox");
     }
 
-    public function handleRead(): void
+    public function markAsRead(): void
     {
         $this->requireAuth();
 
@@ -125,6 +125,6 @@ class MessageController extends Controller
             $this->setNotification("error", "Nepodařilo se označit zprávu jako přečtenou.");
         }
 
-        $this->redirect("/messages");
+        $this->redirect("/mailbox");
     }
 }

@@ -100,14 +100,14 @@ foreach ($outgoingMessages as $msg) {
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Interní zprávy</h1>
-                        <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Komunikační systém pro výměnu zpráv s uživateli</p>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Poštovní schránka</h1>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Interní komunikační systém pro výměnu zpráv s uživateli</p>
                     </div>
                 </div>
             </div>
 
             <div>
-                <a href="/messages/send" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white shadow-md shadow-blue-900/30 transition">
+                <a href="/mailbox/compose" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white shadow-md shadow-blue-900/30 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -153,7 +153,7 @@ foreach ($outgoingMessages as $msg) {
                         </div>
                         <h3 class="text-base font-bold text-slate-800">Žádné příchozí zprávy</h3>
                         <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Zatím vám nikdo nenapsal. Můžete někoho kontaktovat jako první.</p>
-                        <a href="/messages/send" class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
+                        <a href="/mailbox/compose" class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
                             Napsat novou zprávu &rarr;
                         </a>
                     </div>
@@ -194,7 +194,7 @@ foreach ($outgoingMessages as $msg) {
                                     <div class="mt-4 flex items-center justify-between gap-2 flex-wrap">
                                         <div class="read-action-container">
                                             <?php if (!$item['is_read']): ?>
-                                                <form method="POST" action="/messages/read" class="mark-read-form inline">
+                                                <form method="POST" action="/mailbox/read" class="mark-read-form inline">
                                                     <input type="hidden" name="message_id" value="<?= htmlspecialchars((string) $item['id']) ?>">
                                                     <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-sm transition">
                                                         <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +212,7 @@ foreach ($outgoingMessages as $msg) {
                                                 </span>
                                             <?php endif; ?>
                                         </div>
-                                        <a href="/messages/send?target_id=<?= urlencode((string) $item['source_id']) ?>&subject=<?= urlencode('Re: ' . $item['subject']) ?>" 
+                                        <a href="/mailbox/compose?target_id=<?= urlencode((string) $item['source_id']) ?>&subject=<?= urlencode('Re: ' . $item['subject']) ?>" 
                                            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
@@ -238,7 +238,7 @@ foreach ($outgoingMessages as $msg) {
                         </div>
                         <h3 class="text-base font-bold text-slate-800">Žádné odeslané zprávy</h3>
                         <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Složka odeslaných zpráv je prázdná. Všechny vámi odeslané zprávy se zobrazí zde.</p>
-                        <a href="/messages/send" class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
+                        <a href="/mailbox/compose" class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
                             Napsat první zprávu &rarr;
                         </a>
                     </div>
@@ -399,7 +399,7 @@ foreach ($outgoingMessages as $msg) {
             updateUnreadCount();
 
             // Send backend request
-            fetch('/messages/read', {
+            fetch('/mailbox/read', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
