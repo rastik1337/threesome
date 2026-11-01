@@ -1,3 +1,7 @@
+<?php
+use App\Models\Gender;
+use App\Models\Role;
+?>
 <div class="max-w-2xl mx-auto my-4 sm:my-8 bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
     
     <!-- Záhlaví profilu s gradientem -->
@@ -31,7 +35,7 @@
             <!-- Role uživatele -->
             <div class="self-start sm:self-end">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-blue-50 text-blue-700 border border-blue-200">
-                    Role: <?= htmlspecialchars($user['role'] ?? 'user') ?>
+                    Role: <?= htmlspecialchars(Role::tryFrom($user['role'] ?? '')?->translate() ?? ($user['role'] ?? 'Uživatel')) ?>
                 </span>
             </div>
         </div>
@@ -64,20 +68,14 @@
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Pohlaví</span>
                 <span class="text-sm font-bold text-slate-800">
-                    <?php 
-                        $genders = ['male' => 'Muž', 'female' => 'Žena', 'other' => 'Jiné / Neuvedeno'];
-                        echo htmlspecialchars($genders[$user['gender'] ?? ''] ?? ($user['gender'] ?? '-'));
-                    ?>
+                    <?= htmlspecialchars(Gender::tryFrom($user['gender'] ?? '')?->translate() ?? ($user['gender'] ?? '-')) ?>
                 </span>
             </div>
 
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Typ účtu</span>
                 <span class="text-sm font-bold text-slate-800">
-                    <?php 
-                        $roles = ['admin' => 'Správce', 'user' => 'Uživatel'];
-                        echo htmlspecialchars($roles[$user['role'] ?? ''] ?? ($user['role'] ?? 'Uživatel'));
-                    ?>
+                    <?= htmlspecialchars(Role::tryFrom($user['role'] ?? '')?->translate() ?? ($user['role'] ?? 'Uživatel')) ?>
                 </span>
             </div>
 
