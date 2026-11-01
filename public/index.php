@@ -23,9 +23,13 @@ use App\Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ProfileController;
+use App\Controllers\GalleryController;
 
 Router::get('/', [HomeController::class, 'index']);
 Router::get('/profile', [ProfileController::class, 'index']);
+
+Router::post('/gallery/upload', [GalleryController::class, 'handleUpload']);
+Router::post('/gallery/delete', [GalleryController::class, 'delete']);
 
 Router::get('/login', [AuthController::class, 'login']);
 Router::post('/login', [AuthController::class, 'handleLogin']);
