@@ -20,7 +20,7 @@ class ImageService
             throw new InvalidArgumentException('Chyba při nahrávání souboru.');
         }
 
-        if (!isset($file['tmp_name']) || (!is_uploaded_file($file['tmp_name']) && php_sapi_name() !== 'cli')) {
+        if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
             throw new InvalidArgumentException('Neplatný nahraný soubor.');
         }
 
