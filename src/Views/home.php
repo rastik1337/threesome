@@ -10,11 +10,11 @@
         <form action="/gallery/upload" method="POST" enctype="multipart/form-data">
             <div>
                 <label for="photo">Fotografie:</label>
-                <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff" required>
+                <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff" required class="border border-gray-400">
             </div>
             <div>
                 <label for="description">Popisek:</label>
-                <textarea id="description" name="description" rows="2"></textarea>
+                <textarea id="description" name="description" rows="2" class="border border-gray-400"></textarea>
             </div>
             <button type="submit">Nahrát</button>
         </form>
