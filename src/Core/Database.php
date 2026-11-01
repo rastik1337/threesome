@@ -42,28 +42,13 @@ class Database
         return self::$instance;
     }
 
-    public static function getStatement(string $query, array $params)
+    public static function getStatement(string $query, array $params = []): PDOStatement
     {
         $con = self::getConnection();
         $stmt = $con->prepare($query);
         $stmt->execute($params);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt;
-    }
-
-    public static function fetchAll(string $query, array $params = []): array
-    {
-        $con = self::getConnection();
-        $stmt = $con->prepare($query);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function execute(string $query, array $params = []): bool
-    {
-        $con = self::getConnection();
-        $stmt = $con->prepare($query);
-        return $stmt->execute($params);
     }
 
     public static function testConnection(): bool

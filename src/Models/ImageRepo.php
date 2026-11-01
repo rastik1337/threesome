@@ -11,7 +11,7 @@ class ImageRepo
 {
     public static function create(int $userId, string $filePath, ?string $description = null): void
     {
-        Database::execute(
+        Database::getStatement(
             "INSERT INTO images (user_id, file_path, description) VALUES (:user_id, :file_path, :description)",
             [
                 'user_id' => $userId,
@@ -26,12 +26,12 @@ class ImageRepo
      */
     public static function getAllWithAuthor(): array
     {
-        $rows = Database::fetchAll(
+        $rows = Database::getStatement(
             "SELECT i.*, u.login AS author_login, u.avatar_path AS author_avatar
              FROM images i
              JOIN users u ON i.user_id = u.user_id
              ORDER BY i.created_at DESC"
-        );
+        )->fetchAll();
 
         $images = [];
         foreach ($rows as $row) {
@@ -76,6 +76,7 @@ class ImageRepo
 
     public static function delete(int $id): bool
     {
-        return Database::execute("DELETE FROM images WHERE image_id = :id", ['id' => $id]);
+        Database::getStatement("DELETE FROM images WHERE image_id = :id", ['id' => $id]);
+        return true;
     }
 }
