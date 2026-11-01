@@ -116,7 +116,7 @@ class MailboxController extends Controller
         $this->requireAuth();
 
         $userId = intval($_SESSION["user"]["id"]);
-        $messageId = intval($_POST["message_id"]);
+        $messageId = intval($_POST["message_id"] ?? 0);
 
         try {
             MessageRepo::setIsRead($messageId, $userId);
