@@ -28,6 +28,10 @@ class UserRepo
             ['login' => $login],
         );
 
+        if (!$arr) {
+            return null;
+        }
+
         return new User(
             id: intval($arr['user_id']),
             login: $arr['login'],

@@ -38,10 +38,7 @@ class AuthController extends Controller
         }
 
         $user = UserRepo::getByLogin($login);
-        if (!$user) {
-            $errors[] = "Špatné údaje";
-        }
-        if (!password_verify($password, $user->password)) {
+        if (!$user || !password_verify($password, $user->password)) {
             $errors[] = "Špatné údaje";
         }
 
