@@ -23,7 +23,6 @@ class UserRepo
     public static function getByLogin(string $login): ?User
     {
         $arr = Database::getStatement(
-            User::class,
             "SELECT * FROM users WHERE login = :login",
             ['login' => $login],
         )->fetch();
