@@ -6,6 +6,7 @@ namespace App\Core;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 use RuntimeException;
 
 class Database
@@ -41,14 +42,13 @@ class Database
         return self::$instance;
     }
 
-    // TODO: Rename to `query`.
-    public static function fetch(string $class, string $query, array $params)
+    public static function getStatement(string $class, string $query, array $params)
     {
         $con = self::getConnection();
         $stmt = $con->prepare($query);
         $stmt->execute($params);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        return $stmt->fetch() ?: null;
+        return $stmt;
     }
 
     public static function testConnection(): bool
