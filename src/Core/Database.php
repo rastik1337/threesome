@@ -42,13 +42,28 @@ class Database
     }
 
     // TODO: Rename to `query`.
-    public static function fetch(string $class, string $query, array $params)
+    public static function fetch(string $class, string $query, array $params = [])
     {
         $con = self::getConnection();
         $stmt = $con->prepare($query);
         $stmt->execute($params);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt->fetch() ?: null;
+    }
+
+    public static function fetchAll(string $query, array $params = []): array
+    {
+        $con = self::getConnection();
+        $stmt = $con->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function execute(string $query, array $params = []): bool
+    {
+        $con = self::getConnection();
+        $stmt = $con->prepare($query);
+        return $stmt->execute($params);
     }
 
     public static function testConnection(): bool
