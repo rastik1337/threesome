@@ -12,21 +12,21 @@ class UserRepo
 {
     public static function create(array $user)
     {
-        Database::fetch(
+        Database::getStatement(
             User::class,
             "INSERT INTO users (login, password, first_name, last_name, email, phone, gender, avatar_path)
             VALUES (:login, :password, :first_name, :last_name, :email, :phone, :gender, :avatar_path)",
             $user,
-        );
+        )->fetch();
     }
 
     public static function getByLogin(string $login): ?User
     {
-        $arr = Database::fetch(
+        $arr = Database::getStatement(
             User::class,
             "SELECT * FROM users WHERE login = :login",
             ['login' => $login],
-        );
+        )->fetch();
 
         if (!$arr) {
             return null;
