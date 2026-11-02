@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Models\MessageRepo;
+
 abstract class Controller
 {
     public function __construct()
@@ -48,6 +50,17 @@ abstract class Controller
     {
         $data['user'] = $_SESSION['user'] ?? null;
         $data['notifications'] = $this->getNotifications();
+
+        if (!empty($data['user']['id'])) {
+            try {
+                $data['unread_messages_count'] = MessageRepo::getIncomingUnreadCount(intval($data['user']['id']));
+            } catch (\Throwable) {
+                $data['unread_messages_count'] = 0;
+            }
+        } else {
+            $data['unread_messages_count'] = 0;
+        }
+
         View::render($template, $data);
     }
 

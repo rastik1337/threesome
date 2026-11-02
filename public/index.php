@@ -41,6 +41,7 @@ Router::post('/logout', [AuthController::class, 'logout']);
 
 Router::get('/mailbox', [MailboxController::class, 'inbox']);
 Router::get('/mailbox/compose', [MailboxController::class, 'compose']);
+Router::get('/mailbox/unread-count', [MailboxController::class, 'unreadCount']);
 Router::post('/mailbox/send', [MailboxController::class, 'send']);
 Router::post('/mailbox/read', [MailboxController::class, 'markAsRead']);
 

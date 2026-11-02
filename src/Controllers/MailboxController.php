@@ -43,6 +43,23 @@ class MailboxController extends Controller
         ]);
     }
 
+    public function unreadCount(): void
+    {
+        $this->requireAuth();
+
+        $userId = intval($_SESSION["user"]["id"]);
+        $count = 0;
+
+        try {
+            $count = MessageRepo::getIncomingUnreadCount($userId);
+        } catch (Throwable) {
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode(["count" => $count]);
+        exit;
+    }
+
     public function send(): void
     {
         $this->requireAuth();

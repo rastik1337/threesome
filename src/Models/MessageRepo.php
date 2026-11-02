@@ -35,6 +35,16 @@ class MessageRepo
         )->fetchAll();
     }
 
+    public static function getIncomingUnreadCount(int $userId): int
+    {
+        $arr = Database::getStatement(
+            "SELECT COUNT(*) AS cnt FROM messages WHERE target_id = :user_id AND is_read = FALSE",
+            ["user_id" => $userId],
+        )->fetch();
+
+        return intval($arr['cnt'] ?? 0);
+    }
+
     public static function getById(int $messageId): ?Message
     {
         $arr = Database::getStatement(
