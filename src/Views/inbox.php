@@ -49,9 +49,9 @@ $normalizeMessage = static function (array|object $item) use ($decryptText, $for
     $rawCreatedAt = $isArr ? ($item['created_at'] ?? null) : ($item->created_at ?? null);
 
     return [
-        'id' => (int) ($isArr ? ($item['message_id'] ?? $item['id'] ?? 0) : ($item->message_id ?? $item->id ?? 0)),
-        'source_id' => (int) ($isArr ? ($item['source_id'] ?? 0) : ($item->source_id ?? 0)),
-        'target_id' => (int) ($isArr ? ($item['target_id'] ?? 0) : ($item->target_id ?? 0)),
+        'id' => intval($isArr ? ($item['message_id'] ?? $item['id'] ?? 0) : ($item->message_id ?? $item->id ?? 0)),
+        'source_id' => intval($isArr ? ($item['source_id'] ?? 0) : ($item->source_id ?? 0)),
+        'target_id' => intval($isArr ? ($item['target_id'] ?? 0) : ($item->target_id ?? 0)),
         'subject' => $decryptText($rawSubject),
         'body' => $decryptText($rawBody),
         'is_read' => (bool) $isReadRaw,
