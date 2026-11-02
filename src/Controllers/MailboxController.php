@@ -65,20 +65,17 @@ class MailboxController extends Controller
         $this->requireAuth();
 
         $userId = intval($_SESSION["user"]["id"]);
-        $targetIdRaw = trim(($_POST["target_id"] ?? ""));
-        $subject = trim(($_POST["subject"] ?? ""));
-        $body = trim(($_POST["body"] ?? ""));
+        $targetLogin = trim((string) ($_POST["target_login"] ?? ""));
+        $subject = trim((string) ($_POST["subject"] ?? ""));
+        $body = trim((string) ($_POST["body"] ?? ""));
 
         $errors = [];
 
-        if ($targetIdRaw === "") {
-            $errors[] = "Vyplňte ID příjemce.";
-        } elseif (!ctype_digit($targetIdRaw) || intval($targetIdRaw) <= 0) {
-            $errors[] = "ID příjemce musí být kladné celé číslo.";
-        } elseif (intval($targetIdRaw) === $userId) {
+        $target = UserRepo::getByLogin($targetLogin);
+        if (!$target) {
+            $errors[] = "Uživatel neexistuje.";
+        } elseif ($target->user_id === $userId) {
             $errors[] = "Nemůžete poslat zprávu sami sobě.";
-        } elseif (!UserRepo::exists(intval($targetIdRaw))) {
-            $errors[] = "Příjemce s tímto ID neexistuje.";
         }
 
         if (strlen($subject) > 255) {
@@ -96,7 +93,7 @@ class MailboxController extends Controller
                 "title" => "Nová zpráva",
                 "errors" => $errors,
                 "old" => [
-                    "target_id" => $targetIdRaw,
+                    "target_login" => $targetLogin,
                     "subject" => $subject,
                     "body" => $body,
                 ],
@@ -107,7 +104,7 @@ class MailboxController extends Controller
         try {
             MessageRepo::create([
                 "source_id" => $userId,
-                "target_id" => intval($targetIdRaw),
+                "target_id" => $target->user_id,
                 "subject" => $subject !== "" ? Encryption::encrypt($subject) : null,
                 "body" => Encryption::encrypt($body),
             ]);
@@ -116,7 +113,7 @@ class MailboxController extends Controller
                 "title" => "Nová zpráva",
                 "errors" => ["Nastala chyba při odesílání zprávy. Zkuste to prosím znovu."],
                 "old" => [
-                    "target_id" => $targetIdRaw,
+                    "target_login" => $targetLogin,
                     "subject" => $subject,
                     "body" => $body,
                 ],

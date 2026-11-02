@@ -6,13 +6,13 @@ declare(strict_types=1);
  * @var array{id: int, login: string, role: string}|null $user
  * @var array<string, string>|null $notifications
  * @var list<string>|null $errors
- * @var array{target_id?: string, subject?: string, body?: string}|null $old
+ * @var array{target_login?: string, subject?: string, body?: string}|null $old
  */
 
-$prefillTargetId = htmlspecialchars((string) ($old['target_id'] ?? $_GET['target_id'] ?? $_GET['to'] ?? ''));
+$prefillTargetLogin = htmlspecialchars((string) ($old['target_login'] ?? $_GET['target_login'] ?? $_GET['to'] ?? ''));
 $prefillSubject = htmlspecialchars((string) ($old['subject'] ?? $_GET['subject'] ?? ''));
 $prefillBody = htmlspecialchars((string) ($old['body'] ?? ''));
-$currentUserId = (int) ($user['id'] ?? 0);
+$currentLogin = (string) ($user['login'] ?? '');
 ?>
 
 <div class="max-w-2xl mx-auto my-4 sm:my-8">
@@ -59,24 +59,23 @@ $currentUserId = (int) ($user['id'] ?? 0);
         <!-- Formulář -->
         <form id="sendMessageForm" method="POST" action="/mailbox/send" novalidate class="p-6 sm:p-8 space-y-5">
 
-            <!-- Příjemce (target_id) -->
+            <!-- Příjemce -->
             <div>
-                <label for="target_id" class="block text-sm font-bold text-slate-700 mb-1">
-                    ID příjemce: <span class="text-rose-500">*</span>
+                <label for="target_login" class="block text-sm font-bold text-slate-700 mb-1">
+                    Příjemce (uživatelské jméno / login): <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
-                    <input type="number" 
-                           id="target_id" 
-                           name="target_id" 
-                           min="1" 
-                           step="1" 
+                    <input type="text" 
+                           id="target_login" 
+                           name="target_login" 
                            required 
-                           value="<?= $prefillTargetId ?>"
-                           placeholder="např. 2"
+                           value="<?= $prefillTargetLogin ?>"
+                           placeholder="např. novak"
+                           autocomplete="off"
                            class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 transition-colors">
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Zadejte číselné ID uživatele, kterému chcete zprávu doručit.</p>
-                <div id="targetIdError" class="text-rose-600 text-xs mt-1 min-h-[1rem]"></div>
+                <p class="text-xs text-slate-500 mt-1">Zadejte přihlašovací jméno (login) uživatele, kterému chcete zprávu doručit.</p>
+                <div id="targetLoginError" class="text-rose-600 text-xs mt-1 min-h-[1rem]"></div>
             </div>
 
             <!-- Předmět (subject) -->
@@ -130,22 +129,18 @@ $currentUserId = (int) ($user['id'] ?? 0);
 <script>
     (function() {
         const form = document.getElementById('sendMessageForm');
-        const currentUserId = <?= (int) $currentUserId ?>;
+        const currentLogin = <?= json_encode($currentLogin) ?>.toLowerCase();
 
         const fields = {
-            target_id: {
-                input: document.getElementById('target_id'),
-                error: document.getElementById('targetIdError'),
+            target_login: {
+                input: document.getElementById('target_login'),
+                error: document.getElementById('targetLoginError'),
                 validate: (val) => {
                     const trimmed = val.trim();
                     if (!trimmed) {
-                        return 'Zadejte ID příjemce.';
+                        return 'Zadejte přihlašovací jméno příjemce.';
                     }
-                    const num = parseInt(trimmed, 10);
-                    if (isNaN(num) || num <= 0) {
-                        return 'ID příjemce musí být kladné celé číslo.';
-                    }
-                    if (currentUserId > 0 && num === currentUserId) {
+                    if (currentLogin && trimmed.toLowerCase() === currentLogin) {
                         return 'Nemůžete poslat zprávu sami sobě.';
                     }
                     return '';
